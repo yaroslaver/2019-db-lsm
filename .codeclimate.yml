@@ -14,7 +14,6 @@ plugins:
         - "java-empty"
         - "java-finalizers"
         - "java-imports"
-        - "java-metrics"
         - "java-migrating"
         - "java-optimizations"
         - "java-strictexception"

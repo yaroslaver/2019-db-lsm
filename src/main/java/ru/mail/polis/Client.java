@@ -36,7 +36,11 @@ public class Client {
     private static final Logger log = LoggerFactory.getLogger(Client.class);
     private static final String DATA = "data";
 
-    public static void main(String[] args) throws IOException {
+    private Client() {
+        // Not instantiable
+    }
+
+    public static void main(final String[] args) throws IOException {
         final File data = new File(DATA);
         if (!data.exists() && !data.mkdir()) {
             throw new IOException("Can't create directory: " + data);
@@ -56,7 +60,7 @@ public class Client {
                         + "\n\tremove <key>"
                         + "\n\tquit");
 
-        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String line;
             while (!"quit".equals(line = reader.readLine())) {
                 if (line.isEmpty()) {
@@ -70,10 +74,7 @@ public class Client {
                 switch (cmd) {
                     case "get":
                         try {
-                            final ByteBuffer value = dao.iterator(key).next().getValue();
-                            final byte[] bytes = new byte[value.remaining()];
-                            value.get(bytes);
-                            log.info(new String(bytes));
+                            log.info(dao.iterator(key).next().getValue().toString());
                         } catch (NoSuchElementException e) {
                             log.error("absent");
                         }
