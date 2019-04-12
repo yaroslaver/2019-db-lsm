@@ -27,9 +27,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Utility methods for handling files
+ * Utility methods for handling files.
  *
- * @author Vadim Tsesko <incubos@yandex.com>
+ * @author incubos
  */
 final class Files {
     private Files() {

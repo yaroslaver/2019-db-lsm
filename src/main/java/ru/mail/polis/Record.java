@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Record from {@link DAO}.
  *
- * @author Dmitry Schitinin <dmitry.schitinin@corp.mail.ru>
+ * @author Dmitry Schitinin (sda1988@yandex.ru)
  */
 public class Record implements Comparable<Record> {
 
@@ -39,8 +39,8 @@ public class Record implements Comparable<Record> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Record record = (Record) o;
-        return Objects.equals(key, record.key) &&
-                Objects.equals(value, record.value);
+        return Objects.equals(key, record.key)
+                && Objects.equals(value, record.value);
     }
 
     @Override

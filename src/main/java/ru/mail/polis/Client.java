@@ -25,9 +25,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
 
 /**
- * Simple console client to {@link DAO}
+ * Simple console client to {@link DAO}.
  *
- * @author Vadim Tsesko <incubos@yandex.com>
+ * @author incubos
  */
 public class Client {
     private static final String DATA = "data";

@@ -8,9 +8,9 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 /**
- * Utility methods for iterators
+ * Utility methods for iterators.
  *
- * @author Dmitry Schitinin <dmitry.schitinin@corp.mail.ru>
+ * @author Dmitry Schitinin (sda1988@yandex.ru)
  */
 public final class Iters {
 
