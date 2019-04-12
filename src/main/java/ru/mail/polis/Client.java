@@ -16,6 +16,7 @@
 
 package ru.mail.polis;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,12 +33,27 @@ import java.util.NoSuchElementException;
  *
  * @author incubos
  */
-public class Client {
+public final class Client {
     private static final Logger log = LoggerFactory.getLogger(Client.class);
     private static final String DATA = "data";
 
     private Client() {
         // Not instantiable
+    }
+
+    private static void print(
+            @NotNull final DAO dao,
+            @NotNull final ByteBuffer key) {
+        try {
+            final ByteBuffer value = dao.get(key);
+            final byte[] bytes = new byte[value.remaining()];
+            value.get(bytes);
+            log.info(new String(bytes, StandardCharsets.UTF_8));
+        } catch (NoSuchElementException e) {
+            log.error("absent");
+        } catch (IOException e) {
+            log.error("Can't extract key: " + key, e);
+        }
     }
 
     public static void main(final String[] args) throws IOException {
@@ -73,11 +89,7 @@ public class Client {
 
                 switch (cmd) {
                     case "get":
-                        try {
-                            log.info(dao.iterator(key).next().getValue().toString());
-                        } catch (NoSuchElementException e) {
-                            log.error("absent");
-                        }
+                        print(dao, key);
                         break;
 
                     case "put":

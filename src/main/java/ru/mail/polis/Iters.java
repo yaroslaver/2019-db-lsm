@@ -94,7 +94,7 @@ public final class Iters {
             this.next = iter.hasNext() ? iter.next() : null;
         }
 
-        CollapseEqualsIterator(@NotNull Iterator<E> iter) {
+        CollapseEqualsIterator(@NotNull final Iterator<E> iter) {
             this(iter, Functions.identity());
         }
 
