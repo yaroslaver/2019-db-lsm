@@ -41,19 +41,16 @@ public final class Client {
         // Not instantiable
     }
 
-    private static void print(
-            @NotNull final DAO dao,
-            @NotNull final ByteBuffer key) {
-        try {
-            final ByteBuffer value = dao.get(key);
-            final byte[] bytes = new byte[value.remaining()];
-            value.get(bytes);
-            log.info(new String(bytes, StandardCharsets.UTF_8));
-        } catch (NoSuchElementException e) {
-            log.error("absent");
-        } catch (IOException e) {
-            log.error("Can't extract key: " + key, e);
-        }
+    @NotNull
+    private static ByteBuffer from(@NotNull final String value) {
+        return ByteBuffer.wrap(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @NotNull
+    private static String from(@NotNull final ByteBuffer value) {
+        final byte[] bytes = new byte[value.remaining()];
+        value.get(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
     public static void main(final String[] args) throws IOException {
@@ -89,12 +86,17 @@ public final class Client {
 
                 switch (cmd) {
                     case "get":
-                        print(dao, key);
+                        try {
+                            log.info(from(dao.get(key)));
+                        } catch (NoSuchElementException e) {
+                            log.warn("absent");
+                        } catch (IOException e) {
+                            log.error("Can't extract key: " + key, e);
+                        }
                         break;
 
                     case "put":
-                        final ByteBuffer value = ByteBuffer.wrap(tokens[2].getBytes(StandardCharsets.UTF_8));
-                        dao.upsert(key, value);
+                        dao.upsert(key, from(tokens[2]));
                         break;
 
                     case "remove":
