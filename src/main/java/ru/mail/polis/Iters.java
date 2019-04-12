@@ -76,7 +76,6 @@ public final class Iters {
     }
 
     private static class CollapseEqualsIterator<E> implements Iterator<E> {
-
         private final Iterator<E> iter;
         private final Function<E, ?> keyExtractor;
 
@@ -107,10 +106,10 @@ public final class Iters {
             // Advance to the next distinct key
             this.next = null;
             while (iter.hasNext()) {
-                final E next = iter.next();
-                if (!keyExtractor.apply(next)
+                final E key = iter.next();
+                if (!keyExtractor.apply(key)
                         .equals(keyExtractor.apply(result))) {
-                    this.next = next;
+                    this.next = key;
                     break;
                 }
             }

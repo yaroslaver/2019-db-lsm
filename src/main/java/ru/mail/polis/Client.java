@@ -16,6 +16,9 @@
 
 package ru.mail.polis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -30,24 +33,23 @@ import java.util.NoSuchElementException;
  * @author incubos
  */
 public class Client {
+    private static final Logger log = LoggerFactory.getLogger(Client.class);
     private static final String DATA = "data";
 
     public static void main(String[] args) throws IOException {
         final File data = new File(DATA);
-        if (!data.exists()) {
-            if (!data.mkdir()) {
-                throw new IOException("Can't create directory: " + data);
-            }
+        if (!data.exists() && !data.mkdir()) {
+            throw new IOException("Can't create directory: " + data);
         }
         if (!data.isDirectory()) {
             throw new IOException("Not directory: " + data);
         }
 
+        log.info("Storing data in {}", data.getAbsolutePath());
         final DAO dao = DAOFactory.create(data);
         final String pkg = dao.getClass().getPackage().toString();
-        System.out.println(
-                "Welcome to " + pkg.substring(pkg.lastIndexOf(".") + 1) + " Key-Value DAO!"
-                        + "\nStoring data in directory " + DATA
+        log.info(
+                "Welcome to " + pkg.substring(pkg.lastIndexOf('.') + 1) + " Key-Value DAO!"
                         + "\nSupported commands:"
                         + "\n\tget <key>"
                         + "\n\tput <key> <value>"
@@ -71,9 +73,9 @@ public class Client {
                             final ByteBuffer value = dao.iterator(key).next().getValue();
                             final byte[] bytes = new byte[value.remaining()];
                             value.get(bytes);
-                            System.out.println(new String(bytes));
+                            log.info(new String(bytes));
                         } catch (NoSuchElementException e) {
-                            System.err.println("absent");
+                            log.error("absent");
                         }
                         break;
 
@@ -87,7 +89,7 @@ public class Client {
                         break;
 
                     default:
-                        System.err.println("Unsupported command: " + cmd);
+                        log.error("Unsupported command: {}", cmd);
                 }
             }
         }
