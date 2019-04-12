@@ -39,6 +39,16 @@ public final class Iters {
         return new UntilIterator<>(iter, until);
     }
 
+    public static <E> Iterator<E> collapseEquals(
+            @NotNull final Iterator<E> iter,
+            @NotNull final Function<E, ?> byKey) {
+        return new CollapseEqualsIterator<>(iter, byKey);
+    }
+
+    public static <E> Iterator<E> collapseEquals(@NotNull Iterator<E> iter) {
+        return new CollapseEqualsIterator<>(iter);
+    }
+
     private static class UntilIterator<E extends Comparable<E>> implements Iterator<E> {
         private final Iterator<E> iter;
         private final E until;
@@ -66,23 +76,15 @@ public final class Iters {
         }
     }
 
-    public static <E> Iterator<E> collapseEquals(@NotNull Iterator<E> iter,
-                                                 @NotNull Function<E, ?> byKey) {
-        return new CollapseEqualsIterator<>(iter, byKey);
-    }
-
-    public static <E> Iterator<E> collapseEquals(@NotNull Iterator<E> iter) {
-        return new CollapseEqualsIterator<>(iter);
-    }
-
     private static class CollapseEqualsIterator<E> implements Iterator<E> {
         private final Iterator<E> iter;
         private final Function<E, ?> keyExtractor;
 
         private E next;
 
-        CollapseEqualsIterator(@NotNull Iterator<E> iter,
-                               @NotNull Function<E, ?> keyExtractor) {
+        CollapseEqualsIterator(
+                @NotNull final Iterator<E> iter,
+                @NotNull final Function<E, ?> keyExtractor) {
             this.iter = iter;
             this.keyExtractor = keyExtractor;
             this.next = iter.hasNext() ? iter.next() : null;

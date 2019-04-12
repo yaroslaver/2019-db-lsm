@@ -50,7 +50,9 @@ final class Files {
                     }
 
                     @Override
-                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    public FileVisitResult postVisitDirectory(
+                            final Path dir,
+                            final IOException exc) throws IOException {
                         java.nio.file.Files.delete(dir);
                         return FileVisitResult.CONTINUE;
                     }

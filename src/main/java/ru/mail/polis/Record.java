@@ -11,12 +11,6 @@ import java.util.Objects;
  * @author Dmitry Schitinin (sda1988@yandex.ru)
  */
 public class Record implements Comparable<Record> {
-
-    public static Record of(@NotNull ByteBuffer key,
-                            @NotNull ByteBuffer value) {
-        return new Record(key, value);
-    }
-
     private final ByteBuffer key;
     private final ByteBuffer value;
 
@@ -24,6 +18,11 @@ public class Record implements Comparable<Record> {
            @NotNull ByteBuffer value) {
         this.key = key;
         this.value = value;
+    }
+
+    public static Record of(@NotNull ByteBuffer key,
+                            @NotNull ByteBuffer value) {
+        return new Record(key, value);
     }
 
     public ByteBuffer getKey() {
