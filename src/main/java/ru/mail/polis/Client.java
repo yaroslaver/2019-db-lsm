@@ -103,6 +103,7 @@ public final class Client {
 
                     default:
                         log.error("Unsupported command: {}", cmd);
+                        break; // For PMD
                 }
             }
         }
