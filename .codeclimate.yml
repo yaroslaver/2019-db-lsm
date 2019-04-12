@@ -5,7 +5,10 @@ plugins:
 checks:
   method-lines:
     config:
-      threshold: 40 # It must fit into Vim screen
+      threshold: 80 # No more than 2 screens
   method-complexity:
     config:
       threshold: 15 # We are Russian hackers!
+  similar-code:
+    config:
+      threshold: 8 # Sometimes it is not so similar
